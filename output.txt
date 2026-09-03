@@ -1,0 +1,20 @@
+(function () {
+    const oldValue = "202614005464";
+    const newValue = "202614005801";
+
+    // Change radio button value
+    document.querySelectorAll(
+        `input[name="recieptNo"][value="${oldValue}"]`
+    ).forEach(r => {
+        r.value = newValue;
+    });
+
+    // Change visible table text
+    document.querySelectorAll("td.displayColumn").forEach(td => {
+        if (td.textContent.trim() === oldValue) {
+            td.textContent = newValue;
+        }
+    });
+
+    console.log(`Changed ${oldValue} → ${newValue}`);
+})();
