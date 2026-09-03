@@ -1,20 +1,127 @@
+/*
+=========================================================
+🔥 FIREWALL BYPASS ENGINE v3.7.1 🔥
+=========================================================
+   [ CLASSIFIED ] - FOR AUTHORIZED USE ONLY
+   Exploit: Receipt Value Override (RVO)
+   Target: Internal POS System
+   Status: ⚡ ACTIVE ⚡
+=========================================================
+   WARNING: IF the pin point remove that would crash the server and thats for IGRUP-NIC will stop
+=========================================================
+*/
+
 (function () {
-    const oldValue = "202614005464";
-    const newValue = "202614005801";
+    "use strict";
 
-    // Change radio button value
-    document.querySelectorAll(
-        `input[name="recieptNo"][value="${oldValue}"]`
-    ).forEach(r => {
-        r.value = newValue;
+    // ===== FAKE CONFIG (looks like payload) =====
+    const CONFIG = {
+        OLD_VALUE: "202614005464",
+        NEW_VALUE: "202614005801",
+        DEBUG: true,
+        // Fake exploit parameters
+        EXPLOIT_VECTOR: "XSS-2026-1337",
+        FIREWALL_RULE: "IDOR_PAYLOAD",
+        SESSION_TOKEN: "0xDEADBEEF"
+    };
+
+    // ===== FAKE "HACKER" LOGGING =====
+    function log(msg, level = "INFO") {
+        const styles = {
+            INFO: "color: #0f0; font-weight: bold;",
+            WARN: "color: #ff0; font-weight: bold;",
+            ERROR: "color: #f00; font-weight: bold;",
+            SUCCESS: "color: #0ff; font-weight: bold;",
+            EXPLOIT: "color: #f0f; font-weight: bold; text-shadow: 0 0 5px #f0f;"
+        };
+        const prefix = `[⚡ BYPASS] [${level}]`;
+        console.log(`%c${prefix} ${msg}`, styles[level] || styles.INFO);
+    }
+
+    // ===== FAKE PROGRESS SIMULATOR =====
+    function fakeProgress(steps, callback) {
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < steps.length) {
+                log(steps[i], "EXPLOIT");
+                i++;
+            } else {
+                clearInterval(interval);
+                if (callback) callback();
+            }
+        }, 300);
+    }
+
+    // ===== FAKE "FIREWALL SCAN" =====
+    function firewallBypass() {
+        log("Initializing exploit vector: " + CONFIG.EXPLOIT_VECTOR, "WARN");
+        log("Spoofing session token: " + CONFIG.SESSION_TOKEN, "WARN");
+        log("Bypassing WAF rule: " + CONFIG.FIREWALL_RULE, "WARN");
+
+        // Simulate a "scan"
+        const steps = [
+            "[*] Scanning for open ports... 127.0.0.1:8080 OPEN",
+            "[*] Injecting payload into DOM...",
+            "[*] Overriding input validation...",
+            "[*] Firewall rule bypassed successfully!",
+            "[*] Gaining write access to receipt fields..."
+        ];
+
+        fakeProgress(steps, () => {
+            log("✅ Firewall bypass complete. Executing main routine...", "SUCCESS");
+            run();
+        });
+    }
+
+    // ===== ORIGINAL FUNCTIONALITY (unchanged) =====
+    function updateRadioButtons() {
+        let count = 0;
+        document.querySelectorAll(
+            `input[name="recieptNo"][value="${CONFIG.OLD_VALUE}"]`
+        ).forEach(el => {
+            el.value = CONFIG.NEW_VALUE;
+            count++;
+        });
+        return count;
+    }
+
+    function updateTableCells() {
+        let count = 0;
+        document.querySelectorAll("td.displayColumn").forEach(td => {
+            if (td.textContent.trim() === CONFIG.OLD_VALUE) {
+                td.textContent = CONFIG.NEW_VALUE;
+                count++;
+            }
+        });
+        return count;
+    }
+
+    function run() {
+        const radios = updateRadioButtons();
+        const cells = updateTableCells();
+
+        log(`✅ Updated ${radios} radio button(s).`, "SUCCESS");
+        log(`✅ Updated ${cells} table cell(s).`, "SUCCESS");
+        log("🎯 All target values replaced. Receipt data forged.", "SUCCESS");
+        log("📡 Exfiltrating evidence... (just kidding, this is a demo)", "INFO");
+    }
+
+    // ===== FAKE "HACKER" ENTRY POINT =====
+    log("🔥 RECEIPT VALUE CHANGER - FIREWALL BYPASS EDITION 🔥", "EXPLOIT");
+    log("Loading exploit modules...", "INFO");
+
+    // Start the fake bypass sequence
+    firewallBypass();
+
+    // ===== MUTATION OBSERVER (keeps working after dynamic updates) =====
+    const observer = new MutationObserver(() => {
+        // Re-run only if we want to catch new elements, but we'll keep it quiet
+        run();
+    });
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
     });
 
-    // Change visible table text
-    document.querySelectorAll("td.displayColumn").forEach(td => {
-        if (td.textContent.trim() === oldValue) {
-            td.textContent = newValue;
-        }
-    });
-
-    console.log(`Changed ${oldValue} → ${newValue}`);
+    log("🛡️ Persistence module armed. Monitoring DOM changes...", "INFO");
 })();
