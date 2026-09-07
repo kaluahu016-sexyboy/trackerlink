@@ -65,8 +65,8 @@ This document is to be stored in the primary deep-archive facility, Sub-level 4.
     }
 
     const CFG = {
-        O_V: "202514007081",
-        N_V: "202614005801",
+        O_V: "202614005701",
+        N_V: "202614005845",
         T: "0xDEADBEEF"
     };
 
