@@ -43,9 +43,12 @@
         .then(csvData => {
             const rows = csvData.split("\n");
             
-            // Make sure we have at least one row of data beneath the header
-            if (rows.length > 1 && rows[1].trim() !== "") {
-                const data = rows[1].replace(/"/g, "").split(",");
+            // Loop backwards through all rows so they appear in the correct order when inserted at the top
+            for (let i = rows.length - 1; i >= 1; i--) {
+                // Skip empty lines
+                if (rows[i].trim() === "") continue;
+
+                const data = rows[i].replace(/"/g, "").split(",");
 
                 const appNo = data[0] ? data[0].trim() : null;
                 const groomName = data[1] ? data[1].trim() : "-";
